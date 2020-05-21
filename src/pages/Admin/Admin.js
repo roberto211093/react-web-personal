@@ -1,9 +1,9 @@
 import React from "react";
 
-const Admin = (props) => {
+const Admin = () => {
     return (
         <div>
-            Admin {props.hey}
+            AdminHome
         </div>
     )
 }

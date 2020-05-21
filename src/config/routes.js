@@ -2,14 +2,16 @@
 import LayoutAdmin from "../Layouts/LayoutAdmin";
 import LayoutBasic from "../Layouts/LayoutBasic";
 
-// Admin
+// Page Admin
 import AdminHome from "../pages/Admin";
 import AdminSingIn from "../pages/Admin/SignIn";
 
-// No Admin
+// Page
 import Home from "../pages/Home";
 import Contact from "../pages/Contact";
 
+// Not Found
+import Error404 from "../components/Error404";
 
 const routes = [
     {
@@ -26,6 +28,9 @@ const routes = [
                 path: "/admin/login",
                 component: AdminSingIn,
                 exact: true
+            },
+            {
+                component: Error404
             }
         ]
     },
@@ -43,6 +48,9 @@ const routes = [
                 path: "/contact",
                 component: Contact,
                 exact: true
+            },
+            {
+                component: Error404
             }
         ]
     }
