@@ -1,18 +1,23 @@
 import React, {useState} from "react";
 import {Form, Input, Button, Checkbox, notification} from "antd";
-import {MailFilled, LockFilled} from '@ant-design/icons';
+import {UserOutlined, MailFilled, LockFilled} from '@ant-design/icons';
 import {emailValidation, minLengthValidation} from "../../../utils/formValidation";
+import signUpApi from '../../../api/user'
 import './RegisterForm.scss';
 
 const RegisterForm = () => {
     const {Item} = Form;
     const dataInit = {
+        name: "",
+        lastname: "",
         email: "",
         password: "",
         repeatPassword: "",
         privacyPolicy: false
     };
     const validationInit = {
+        name: false,
+        lastname: false,
         email: false,
         password: false,
         repeatPassword: false,
@@ -23,6 +28,9 @@ const RegisterForm = () => {
 
     const validateField = (e) => {
         const {type, name} = e.target;
+        if (type === "text") {
+            setFormValidation({...formValidation, [name]: minLengthValidation(e.target, 3)});
+        }
         if (type === "email") {
             setFormValidation({...formValidation, [name]: emailValidation(e.target)});
         }
@@ -41,15 +49,28 @@ const RegisterForm = () => {
             setRegisterData({...registerData, [e.target.name]: e.target.value})
         }
     }
-    const sendData = (e) => {
+
+    const resetForm = () => {
+        const input = document.getElementsByName('input');
+        for (let i = 0; i < input.length; i++) {
+            input[i].classList.remove("success");
+            input[i].classList.remove("error");
+        }
+        setFormValidation(validationInit);
+        setRegisterData(dataInit);
+    }
+
+    const sendData = async (e) => {
         e.preventDefault();
         // eslint-disable-next-line
-        const {email, password, repeatPassword, privacyPolicy} = formValidation;
+        const {name, lastname, email, password, repeatPassword, privacyPolicy} = formValidation;
+        const n = registerData.name;
+        const ls = registerData.lastname;
         const mail = registerData.email;
         const pass = registerData.password;
         const repeatPass = registerData.repeatPassword;
         const pp = registerData.privacyPolicy;
-        if (!mail || !pass || !repeatPass || !pp) {
+        if (!n || !ls || !mail || !pass || !repeatPass || !pp) {
             notification["error"]({
                 message: "Todos los campos son obligatorios"
             });
@@ -61,15 +82,43 @@ const RegisterForm = () => {
             });
             return;
         }
-        setFormValidation(validationInit)
-        setRegisterData(dataInit)
-        notification["success"]({
-            message: "Usuario Registrado"
-        });
+        const result = await signUpApi(registerData);
+        if (result.user) {
+            notification["success"]({
+                message: "Usuario Registrado"
+            });
+            resetForm();
+        } else {
+            notification["error"]({
+                message: result
+            });
+        }
     }
 
     return (
         <Form className="register-form" onSubmitCapture={e => sendData(e)} onChange={e => changeForm(e)}>
+            <Item>
+                <Input
+                    prefix={<UserOutlined style={{color: "rgba(0,0,0,0.25)"}}/>}
+                    className="register-form__input"
+                    type="text"
+                    name="name"
+                    placeholder="Nombre"
+                    value={registerData.name}
+                    onChange={e => validateField(e)}
+                />
+            </Item>
+            <Item>
+                <Input
+                    prefix={<UserOutlined style={{color: "rgba(0,0,0,0.25)"}}/>}
+                    className="register-form__input"
+                    type="text"
+                    name="lastname"
+                    placeholder="Apellido"
+                    value={registerData.lastname}
+                    onChange={e => validateField(e)}
+                />
+            </Item>
             <Item>
                 <Input
                     prefix={<MailFilled style={{color: "rgba(0,0,0,0.25)"}}/>}
@@ -77,6 +126,7 @@ const RegisterForm = () => {
                     type="email"
                     name="email"
                     placeholder="Email"
+                    value={registerData.email}
                     onChange={e => validateField(e)}
                 />
             </Item>
@@ -87,6 +137,7 @@ const RegisterForm = () => {
                     type="password"
                     name="password"
                     placeholder="Password"
+                    value={registerData.password}
                     onChange={e => validateField(e)}
                 />
             </Item>
@@ -97,6 +148,7 @@ const RegisterForm = () => {
                     type="password"
                     name="repeatPassword"
                     placeholder="Repeat Password"
+                    value={registerData.repeatPassword}
                     onChange={e => validateField(e)}
                 />
             </Item>
@@ -104,6 +156,7 @@ const RegisterForm = () => {
                 <Checkbox
                     className="register-form__checkbox"
                     name="privacyPolicy"
+                    checked={registerData.privacyPolicy}
                     onChange={e => validateField(e)}
                 >
                     He leído y acepto la política de privacidad.
