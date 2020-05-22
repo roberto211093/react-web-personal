@@ -3,6 +3,7 @@ import {Redirect} from "react-router-dom";
 import {Layout, Tabs} from "antd";
 import Logo from "../../../assets/img/png/rafaLogo.png";
 import "./SignIn.scss";
+import RegisterForm from "../../../components/Admin/RegisterForm";
 
 const SignIn = () => {
     const { Content } = Layout;
@@ -20,7 +21,7 @@ const SignIn = () => {
                             Componente LoginForm
                         </TabPane>
                         <TabPane tab={<span>Registrar</span>} key="2">
-                            Componente RegisterForm
+                            <RegisterForm/>
                         </TabPane>
                     </Tabs>
                 </div>
