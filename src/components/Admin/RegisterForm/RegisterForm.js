@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Form, Input, Button, Checkbox, notification} from "antd";
 import {MailFilled, LockFilled} from '@ant-design/icons';
+import {emailValidation, minLengthValidation} from "../../../utils/formValidation";
 import './RegisterForm.scss';
 
 const RegisterForm = () => {
@@ -11,7 +12,27 @@ const RegisterForm = () => {
         repeatPassword: "",
         privacyPolicy: false
     };
+    const validationInit = {
+        email: false,
+        password: false,
+        repeatPassword: false,
+        privacyPolicy: false
+    };
     const [registerData, setRegisterData] = useState(dataInit);
+    const [formValidation, setFormValidation] = useState(validationInit);
+
+    const validateField = (e) => {
+        const {type, name} = e.target;
+        if (type === "email") {
+            setFormValidation({...formValidation, [name]: emailValidation(e.target)});
+        }
+        if (type === "password") {
+            setFormValidation({...formValidation, [name]: minLengthValidation(e.target, 6)});
+        }
+        if (type === "checkbox") {
+            setFormValidation({...formValidation, [name]: e.target.checked});
+        }
+    }
 
     const changeForm = (e) => {
         if (e.target.name === "privacyPolicy") {
@@ -22,7 +43,29 @@ const RegisterForm = () => {
     }
     const sendData = (e) => {
         e.preventDefault();
-        console.log("sendData registerData: ", registerData);
+        // eslint-disable-next-line
+        const {email, password, repeatPassword, privacyPolicy} = formValidation;
+        const mail = registerData.email;
+        const pass = registerData.password;
+        const repeatPass = registerData.repeatPassword;
+        const pp = registerData.privacyPolicy;
+        if (!mail || !pass || !repeatPass || !pp) {
+            notification["error"]({
+                message: "Todos los campos son obligatorios"
+            });
+            return;
+        }
+        if (pass !== repeatPass) {
+            notification["error"]({
+                message: "Contraseña no coincide"
+            });
+            return;
+        }
+        setFormValidation(validationInit)
+        setRegisterData(dataInit)
+        notification["success"]({
+            message: "Usuario Registrado"
+        });
     }
 
     return (
@@ -34,6 +77,7 @@ const RegisterForm = () => {
                     type="email"
                     name="email"
                     placeholder="Email"
+                    onChange={e => validateField(e)}
                 />
             </Item>
             <Item>
@@ -43,6 +87,7 @@ const RegisterForm = () => {
                     type="password"
                     name="password"
                     placeholder="Password"
+                    onChange={e => validateField(e)}
                 />
             </Item>
             <Item>
@@ -52,12 +97,14 @@ const RegisterForm = () => {
                     type="password"
                     name="repeatPassword"
                     placeholder="Repeat Password"
+                    onChange={e => validateField(e)}
                 />
             </Item>
             <Item>
                 <Checkbox
                     className="register-form__checkbox"
                     name="privacyPolicy"
+                    onChange={e => validateField(e)}
                 >
                     He leído y acepto la política de privacidad.
                 </Checkbox>

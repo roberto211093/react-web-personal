@@ -2,29 +2,35 @@
 
 .register-form {
   text-align: left;
+
   .ant-form-item {
     &:nth-child(3),
     &:last-of-type {
       margin: 0;
     }
   }
+
   &__input {
     .ant-input-prefix {
       i {
         font-size: 0em +22px / $defaultFontSize;
       }
     }
+
     input {
       font-size: 0em + 20px / $defaultFontSize;
+
       &:focus {
         border-color: $primary-color;
         box-shadow: none;
       }
     }
   }
+
   &__checkbox {
 
   }
+
   &__button {
     width: 100%;
     font-size: 0em + 22px / $defaultFontSize;
@@ -32,7 +38,7 @@
     color: $font-light !important;
     height: 42px;
 
-    &:hover {
+    &:hover, &:focus, &:active {
       background-color: $primary-color-hover;
     }
   }
