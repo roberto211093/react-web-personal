@@ -3,7 +3,7 @@ import jwtDecode from "jwt-decode";
 
 const willExpiredToken = (token) => {
     const seconds = 60;
-    const metaToken= jwtDecode(token)
+    const metaToken = jwtDecode(token)
     const {exp} = metaToken;
     console.log(exp)
     const now = (Date.now() + seconds) / 1000; // entre 1000 para pasarlo a una fecha unix
@@ -13,18 +13,56 @@ const willExpiredToken = (token) => {
     return now >= exp;
 }
 
-export const getRefreshToken = () => {
+export const getRefreshTokenApi = () => {
     const refreshToken = localStorage.getItem(REFRESH_TOKEN);
-    if(!refreshToken) {
+    if (!refreshToken) {
         return null
     }
     return willExpiredToken(refreshToken) ? null : refreshToken
 }
 
-export const getAccessToken = () => {
+export const getAccessTokenApi = () => {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     if (!accessToken) {
         return null;
     }
     return willExpiredToken(accessToken) ? null : accessToken;
+}
+
+export const logout = () => {
+    console.log("logout");
+    localStorage.removeItem(ACCESS_TOKEN);
+    localStorage.removeItem(REFRESH_TOKEN);
+}
+
+export const refreshAccessTokenApi = (refreshToken) => {
+    const url = `${BASE_PATH}/${API_VERSION}/refresh-access-token`;
+    const params = {
+        method: "POST",
+        body: JSON.stringify(refreshToken),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    return fetch(url, params).then(response => {
+        if (response.status !== 200) {
+            return null;
+        } else {
+            return response.json()
+        }
+    })
+        .then(result => {
+            if (result.message) {
+                logout();
+                return result.message;
+            }
+            const {accessToken, refreshToken} = result;
+            localStorage.setItem(ACCESS_TOKEN, accessToken);
+            localStorage.setItem(REFRESH_TOKEN, refreshToken);
+            return result;
+        })
+        .catch(err => {
+            return err.message;
+        })
 }
