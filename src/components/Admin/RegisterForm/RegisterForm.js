@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Form, Input, Button, Checkbox, notification} from "antd";
 import {UserOutlined, MailFilled, LockFilled} from '@ant-design/icons';
 import {emailValidation, minLengthValidation} from "../../../utils/formValidation";
-import signUpApi from '../../../api/user'
+import signUpApi from '../../../api/user';
 import './RegisterForm.scss';
 
 const RegisterForm = () => {
@@ -62,21 +62,14 @@ const RegisterForm = () => {
 
     const sendData = async (e) => {
         e.preventDefault();
-        // eslint-disable-next-line
-        const {name, lastname, email, password, repeatPassword, privacyPolicy} = formValidation;
-        const n = registerData.name;
-        const ls = registerData.lastname;
-        const mail = registerData.email;
-        const pass = registerData.password;
-        const repeatPass = registerData.repeatPassword;
-        const pp = registerData.privacyPolicy;
-        if (!n || !ls || !mail || !pass || !repeatPass || !pp) {
+        const {name, lastname, email, password, repeatPassword, privacyPolicy} = registerData;
+        if (!name || !lastname || !email || !password || !repeatPassword || !privacyPolicy) {
             notification["error"]({
                 message: "Todos los campos son obligatorios"
             });
             return;
         }
-        if (pass !== repeatPass) {
+        if (password !== repeatPassword) {
             notification["error"]({
                 message: "Contraseña no coincide"
             });

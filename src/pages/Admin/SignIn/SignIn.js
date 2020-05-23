@@ -4,6 +4,7 @@ import {Layout, Tabs} from "antd";
 import Logo from "../../../assets/img/png/rafaLogo.png";
 import "./SignIn.scss";
 import RegisterForm from "../../../components/Admin/RegisterForm";
+import LoginForm from "../../../components/Admin/LoginForm";
 
 const SignIn = () => {
     const { Content } = Layout;
@@ -18,7 +19,7 @@ const SignIn = () => {
                 <div className="sign-in__content-tabs">
                     <Tabs type="card">
                         <TabPane tab={<span>Entrar</span>} key="1">
-                            Componente LoginForm
+                            <LoginForm/>
                         </TabPane>
                         <TabPane tab={<span>Registrar</span>} key="2">
                             <RegisterForm/>
