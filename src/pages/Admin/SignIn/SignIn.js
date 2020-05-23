@@ -5,10 +5,18 @@ import Logo from "../../../assets/img/png/rafaLogo.png";
 import "./SignIn.scss";
 import RegisterForm from "../../../components/Admin/RegisterForm";
 import LoginForm from "../../../components/Admin/LoginForm";
+import {getAccessTokenApi} from "../../../api/auth";
 
 const SignIn = () => {
-    const { Content } = Layout;
-    const { TabPane } = Tabs;
+    const {Content} = Layout;
+    const {TabPane} = Tabs;
+
+    if (getAccessTokenApi()) {
+        return (
+            <Redirect to="/admin"/>
+        )
+    }
+
     return (
         <Layout className="sign-in">
             <Content className="sign-in__content">

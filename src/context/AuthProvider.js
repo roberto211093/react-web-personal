@@ -6,30 +6,29 @@ export const AuthContext = createContext();
 
 const AuthProvider = (props) => {
     const dataInit = {user: null, isLoading: true};
-    const [user, setUser] = useState(dataInit);
+    const [data, setData] = useState(dataInit);
 
     const checkUserLogin = useCallback(async () => {
         try {
             const accessToken = await getAccessTokenApi();
-            console.log("checkUserLogin: ", accessToken);
             if (!accessToken) {
                 const refreshToken = await getRefreshTokenApi(accessToken);
                 if (!refreshToken) {
                     logout()
-                    setUser({user: null, isLoading: false});
+                    setData({user: null, isLoading: false});
                 } else {
                     const refreshAccess = await refreshAccessTokenApi();
                     console.log("refreshAccess:", refreshAccess);
                 }
             } else {
-                setUser({user: jwt(accessToken), isLoading: false});
+                setData({user: jwt(accessToken), isLoading: false});
             }
 
         } catch (e) {
             console.log("error al detectar usuario")
             console.log(e)
         }
-    }, [setUser]);
+    }, [setData]);
 
     useEffect(() => {
         checkUserLogin();
@@ -38,9 +37,8 @@ const AuthProvider = (props) => {
     return (
         <AuthContext.Provider value={
             {
-                user,
-                setUser,
-                logout,
+                data,
+                setData
             }
         }>
             {props.children}

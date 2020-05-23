@@ -4,16 +4,17 @@ import RafaLogo from '../../../assets/img/png/rafaLogo.png';
 import {Button} from 'antd';
 import {MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined} from '@ant-design/icons';
 import {AuthContext} from "../../../context/AuthProvider";
+import {logout} from "../../../api/auth";
 
 import './MenuTop.scss';
 
 const MenuTop = (props) => {
     const {menuCollapsed, setMenuCollapsed} = props;
-    const {setUser, logout} = useContext(AuthContext);
+    const {setData} = useContext(AuthContext);
 
     const closeSession = () => {
         logout()
-        setUser({user: null, isLoading: false});
+        setData({user: null, isLoading: false});
     }
 
     return (

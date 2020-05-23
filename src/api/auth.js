@@ -5,11 +5,8 @@ const willExpiredToken = (token) => {
     const seconds = 60;
     const metaToken = jwtDecode(token)
     const {exp} = metaToken;
-    console.log(exp)
     const now = (Date.now() + seconds) / 1000; // entre 1000 para pasarlo a una fecha unix
-    console.log(now)
     //Si now mayor o igual a exp significa que el token a caducado y devolvera true
-    console.log(now >= exp)
     return now >= exp;
 }
 

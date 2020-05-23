@@ -11,10 +11,8 @@ const LayoutAdmin = (props) => {
     const {routes} = props;
     const {Header, Footer, Content} = Layout;
     const [menuCollapsed, setMenuCollapsed] = useState(false);
-    const {user} = useContext(AuthContext);
-    console.log("user en LayoutAdmin: ", user);
-    console.log("user.isLoading en LayoutAdmin: ", user.isLoading);
-    console.log("user.user en LayoutAdmin: ", user.user);
+    const {data} = useContext(AuthContext);
+    const {user, isLoading} = data;
 
     const LoadRoutes = ({routes}) => {
         // console.log('routes: ', routes);
@@ -36,7 +34,7 @@ const LayoutAdmin = (props) => {
 
     return (
         <>
-            {user.user === null
+            {user === null && !isLoading
                 ?
                 <>
                     <Route path="/admin/login" component={AdminSignIn}/>

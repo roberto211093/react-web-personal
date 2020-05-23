@@ -6,6 +6,7 @@ import {signInApi} from '../../../api/user';
 import {ACCESS_TOKEN, REFRESH_TOKEN} from "../../../api/config";
 import './LoginForm.scss';
 import {AuthContext} from "../../../context/AuthProvider";
+import jwt from "jwt-decode";
 
 const LoginForm = () => {
     const {Item} = Form;
@@ -19,7 +20,7 @@ const LoginForm = () => {
     };
     const [loginData, setLoginData] = useState(dataInit);
     const [formValidation, setFormValidation] = useState(validationInit);
-    const {user, setUser, logout} = useContext(AuthContext);
+    const {setData} = useContext(AuthContext);
 
 
     const validateField = (e) => {
@@ -76,6 +77,7 @@ const LoginForm = () => {
                 message: "Bienvenido"
             });
             resetForm();
+            setData({user: jwt(accessToken), isLoading: false });
         } else {
             notification["error"]({
                 message: result
