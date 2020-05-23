@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {Form, Input, Button, notification} from "antd";
 import {MailFilled, LockFilled} from '@ant-design/icons';
 import {emailValidation, minLengthValidation} from "../../../utils/formValidation";
 import {signInApi} from '../../../api/user';
 import {ACCESS_TOKEN, REFRESH_TOKEN} from "../../../api/config";
 import './LoginForm.scss';
+import {AuthContext} from "../../../context/AuthProvider";
 
 const LoginForm = () => {
     const {Item} = Form;
@@ -18,6 +19,7 @@ const LoginForm = () => {
     };
     const [loginData, setLoginData] = useState(dataInit);
     const [formValidation, setFormValidation] = useState(validationInit);
+    const {user, setUser, logout} = useContext(AuthContext);
 
 
     const validateField = (e) => {

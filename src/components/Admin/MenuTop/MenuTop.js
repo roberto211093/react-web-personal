@@ -1,13 +1,20 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Link} from 'react-router-dom';
 import RafaLogo from '../../../assets/img/png/rafaLogo.png';
 import {Button} from 'antd';
 import {MenuFoldOutlined, MenuUnfoldOutlined, PoweroffOutlined} from '@ant-design/icons';
+import {AuthContext} from "../../../context/AuthProvider";
 
 import './MenuTop.scss';
 
 const MenuTop = (props) => {
     const {menuCollapsed, setMenuCollapsed} = props;
+    const {setUser, logout} = useContext(AuthContext);
+
+    const closeSession = () => {
+        logout()
+        setUser({user: null, isLoading: false});
+    }
 
     return (
         <div className="menu-top">
@@ -26,7 +33,7 @@ const MenuTop = (props) => {
                 </Button>
             </div>
             <div className="menu-top__right">
-                <Button type="link" onClick={() => setMenuCollapsed(!menuCollapsed)}>
+                <Button type="link" onClick={() => closeSession()}>
                     <PoweroffOutlined/>
                 </Button>
             </div>

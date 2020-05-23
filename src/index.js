@@ -6,11 +6,14 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { ConfigProvider } from 'antd';
 import esEs from 'antd/es/locale/es_ES';
+import AuthProvider from "./context/AuthProvider";
 
 ReactDOM.render(
   <React.StrictMode>
       <ConfigProvider locale={esEs}>
-        <App />
+          <AuthProvider>
+              <App />
+          </AuthProvider>
       </ConfigProvider>
   </React.StrictMode>,
   document.getElementById('root')

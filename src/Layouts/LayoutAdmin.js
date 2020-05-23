@@ -1,19 +1,23 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {Route, Switch, Redirect} from "react-router-dom";
 import {Layout} from 'antd';
 import "./LayoutAdmin.scss";
 import MenuTop from "../components/Admin/MenuTop";
 import MenuSider from "../components/Admin/MenuSider";
 import AdminSignIn from "../pages/Admin/SignIn/SignIn";
+import {AuthContext} from "../context/AuthProvider";
 
 const LayoutAdmin = (props) => {
     const {routes} = props;
     const {Header, Footer, Content} = Layout;
     const [menuCollapsed, setMenuCollapsed] = useState(false);
-    const user = null;
+    const {user} = useContext(AuthContext);
+    console.log("user en LayoutAdmin: ", user);
+    console.log("user.isLoading en LayoutAdmin: ", user.isLoading);
+    console.log("user.user en LayoutAdmin: ", user.user);
 
     const LoadRoutes = ({routes}) => {
-        console.log('routes: ', routes);
+        // console.log('routes: ', routes);
         return (
             <Switch>
                 {
@@ -32,7 +36,7 @@ const LayoutAdmin = (props) => {
 
     return (
         <>
-            {!user
+            {user.user === null
                 ?
                 <>
                     <Route path="/admin/login" component={AdminSignIn}/>
@@ -46,7 +50,10 @@ const LayoutAdmin = (props) => {
                         style={{marginLeft: menuCollapsed ? "80px" : "200px"}}
                     >
                         <Header className="layout-admin__header">
-                            <MenuTop menuCollapsed={menuCollapsed} setMenuCollapsed={setMenuCollapsed}/>
+                            <MenuTop
+                                menuCollapsed={menuCollapsed}
+                                setMenuCollapsed={setMenuCollapsed}
+                            />
                         </Header>
                         <Content className="layout-admin__content">
                             <LoadRoutes routes={routes}/>
