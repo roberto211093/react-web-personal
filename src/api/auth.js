@@ -33,9 +33,12 @@ export const logout = () => {
 
 export const refreshAccessTokenApi = (refreshToken) => {
     const url = `${BASE_PATH}/${API_VERSION}/refresh-access-token`;
+    const bodyData = {
+        refreshToken: refreshToken
+    }
     const params = {
         method: "POST",
-        body: JSON.stringify(refreshToken),
+        body: JSON.stringify(bodyData),
         headers: {
             "Content-Type": "application/json"
         }

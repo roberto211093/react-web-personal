@@ -12,12 +12,12 @@ const AuthProvider = (props) => {
         try {
             const accessToken = await getAccessTokenApi();
             if (!accessToken) {
-                const refreshToken = await getRefreshTokenApi(accessToken);
+                const refreshToken = await getRefreshTokenApi();
                 if (!refreshToken) {
                     logout()
                     setData({user: null, isLoading: false});
                 } else {
-                    const refreshAccess = await refreshAccessTokenApi();
+                    const refreshAccess = await refreshAccessTokenApi(refreshToken);
                     console.log("refreshAccess:", refreshAccess);
                 }
             } else {
