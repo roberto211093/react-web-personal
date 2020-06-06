@@ -1,0 +1,19 @@
+@import "../../../../scss/index";
+
+.edit-user-form {
+  .upload-avatar {
+    display: table;
+    margin: 0 auto;
+    border: 2px dashed #9A9A9A;
+    border-radius: 100px;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .form-edit {
+    .btn-submit {
+      text-align: center;
+      width: 100%;
+    }
+  }
+}

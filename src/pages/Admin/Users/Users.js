@@ -1,23 +1,26 @@
 import React, {useEffect, useState} from "react";
 import {getAccessTokenApi} from "../../../api/auth";
-import {getUsersApi} from "../../../api/user";
+import {getUsersActiveApi} from "../../../api/user";
+import ListUsers from "../../../components/Admin/Users/ListUsers";
 
 const Users = () => {
-    const [users, setUsers] = useState([]);
+    const [usersActive, setUsersActive] = useState([]);
+    const [usersInactive, setUsersInactive] = useState([]);
     const token = getAccessTokenApi();
-    console.log(users)
 
-    useEffect(  () => {
+    useEffect(() => {
         const fetchData = async () => {
-            const res = await getUsersApi(token);
-            setUsers(res);
+            const usersActive = await getUsersActiveApi(token, true);
+            setUsersActive(usersActive.users);
+            const usersInactive = await getUsersActiveApi(token, false);
+            setUsersInactive(usersInactive.users);
         }
         fetchData();
     }, [token])
 
     return (
         <div className="users">
-            usuarios
+            <ListUsers usersActive={usersActive} usersInactive={usersInactive}/>
         </div>
     )
 }

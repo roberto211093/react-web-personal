@@ -73,4 +73,90 @@ export const getUsersApi = (token) => {
         })
 }
 
+export const getUsersActiveApi = (token, status) => {
+    const url = `${BASE_PATH}/${API_VERSION}/users-active?active=${status}`;
+    const params = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+        }
+    };
+
+    return fetch(url, params).then(response => {
+        return response.json();
+    })
+        .then(result => {
+            if (result.message) {
+                return result.message;
+            }
+            return result;
+        })
+        .catch(err => {
+            return err.message;
+        })
+}
+
+export const putUpdateAvatarApi = (token, avatar, userId) => {
+    const url = `${BASE_PATH}/${API_VERSION}/update-avatar/${userId}`;
+    const formData = new FormData();
+    formData.append("avatar", avatar, avatar.name);
+    const params = {
+        method: "PUT",
+        body: formData,
+        headers: {
+            Authorization: token
+        }
+    };
+
+    return fetch(url, params).then(response => {
+        return response.json();
+    })
+        .then(result => {
+            if (result.message) {
+                return result.message;
+            }
+            return result;
+        })
+        .catch(err => {
+            return err.message;
+        })
+}
+
+export const getAvatarApi = (avatarName) => {
+    const url = `${BASE_PATH}/${API_VERSION}/get-avatar/${avatarName}`;
+
+    return fetch(url).then(response => {
+        return response.url;
+    })
+    .catch(err => {
+        return err.message;
+    })
+}
+
+export const putUpdateUserApi = (token, user, userId) => {
+    const url = `${BASE_PATH}/${API_VERSION}/update-user/${userId}`;
+    const params = {
+        method: "PUT",
+        body: JSON.stringify(user),
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+        }
+    };
+
+    return fetch(url, params).then(response => {
+        return response.json();
+    })
+        .then(result => {
+            if (result.message) {
+                return result.message;
+            }
+            return result;
+        })
+        .catch(err => {
+            return err.message;
+        })
+}
+
 export default signUpApi
