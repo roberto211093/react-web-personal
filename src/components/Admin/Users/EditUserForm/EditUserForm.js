@@ -1,9 +1,10 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useState, useEffect} from "react";
 import {Avatar, Form, Input, Select, Button, Row, Col, notification} from "antd";
 import {UserOutlined, MailFilled, LockFilled} from '@ant-design/icons';
 import {useDropzone} from "react-dropzone"
 import noAvatar from "../../../../assets/img/png/no-avatar.png";
 import "./EditUserForm.scss";
+import { getAvatarApi } from "../../../../api/user";
 
 const UploadAvatar = (props) =>{
     const {userData, setUserData} = props;
@@ -45,7 +46,7 @@ const EditForm = (props) => {
                         <Input
                             prefix={<UserOutlined style={{color: "rgba(0,0,0,0.25)"}}/>}
                             placeholder="Nombre"
-                            defaultValue={userData.name}
+                            value={userData.name}
                             onChange={e => setUserData({...userData, name:e.target.value})}
                         />
                     </Item>
@@ -55,7 +56,7 @@ const EditForm = (props) => {
                         <Input
                             prefix={<UserOutlined style={{color: "rgba(0,0,0,0.25)"}}/>}
                             placeholder="Apellido"
-                            defaultValue={userData.lastname}
+                            value={userData.lastname}
                             onChange={e => setUserData({...userData, lastname:e.target.value})}
                         />
                     </Item>
@@ -68,7 +69,7 @@ const EditForm = (props) => {
                         <Input
                             prefix={<MailFilled style={{color: "rgba(0,0,0,0.25)"}}/>}
                             placeholder="Email"
-                            defaultValue={userData.email}
+                            value={userData.email}
                             onChange={e => setUserData({...userData, email:e.target.value})}
                         />
                     </Item>
@@ -77,7 +78,7 @@ const EditForm = (props) => {
                     <Select
                         placeholder="Selecciona un rol"
                         onChange={e => setUserData({...userData, role: e })}
-                        defaultValue={userData.role}
+                        value={userData.role}
                         style={{width: "100%"}}
                     >
                         <Option value="admin">Administrador</Option>
@@ -121,13 +122,29 @@ const EditForm = (props) => {
 
 const EditUserForm = (props) => {
     const {user} = props;
-    const [userData, setUserData] = useState({
-        name: user.name ? user.name : "",
-        lastname: user.lastname ? user.lastname : "",
-        email: user.email ? user.email : "",
-        role: user.role ? user.role : "",
-        avatar: user.avatar ? user.avatar : null
-    });
+    const [userData, setUserData] = useState({});
+
+    useEffect(() => {
+        if (user.avatar) {
+            getAvatarApi(user.avatar).then( res => {
+                setUserData({
+                    name: user.name ? user.name : "",
+                    lastname: user.lastname ? user.lastname : "",
+                    email: user.email ? user.email : "",
+                    role: user.role ? user.role : "",
+                    avatar: res
+                });
+            });
+        } else {
+            setUserData({
+                name: user.name ? user.name : "",
+                lastname: user.lastname ? user.lastname : "",
+                email: user.email ? user.email : "",
+                role: user.role ? user.role : "",
+                avatar: null
+            });
+        }
+    }, [user])
 
     const updateUser = (e) => {
         e.preventDefault();
