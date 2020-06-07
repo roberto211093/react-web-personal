@@ -29,7 +29,7 @@ const UserActive = (props) => {
       }
     }, [user]);
 
-    return ((
+    return (
         <List.Item
             actions={[
                 <Button type="primary" onClick={() => updateUser(user)}>
@@ -52,18 +52,22 @@ const UserActive = (props) => {
                 description={user.email ? user.email : '...'}
             />
         </List.Item>
-
-    )
     )
 }
 
 const UsersActive = (props) => {
-    const {usersActive, setIsVisibleModal, setTitleModal, setContentModal} = props;
+    const {
+        usersActive,
+        setIsVisibleModal,
+        setTitleModal,
+        setContentModal,
+        setReloadUsers
+    } = props;
 
     const updateUser = (user) => {
         setIsVisibleModal(true);
         setTitleModal(`Editar ${user.name} ${user.lastname}`);
-        setContentModal(<EditUserForm user={user} />);
+        setContentModal(<EditUserForm user={user} setIsVisibleModal={setIsVisibleModal} setReloadUsers={setReloadUsers}/>);
     }
 
     return (
@@ -126,7 +130,7 @@ const UsersInactive = (props) => {
 }
 
 const ListUsers = (props) => {
-    const {usersActive, usersInactive} = props;
+    const {usersActive, usersInactive, setReloadUsers} = props;
     const [viewUsersActive, setViewUsersActive] = useState(true);
     const [isVisibleModal, setIsVisibleModal] = useState(false);
     const [titleModal, setTitleModal] = useState(null);
@@ -149,6 +153,7 @@ const ListUsers = (props) => {
                              setIsVisibleModal={setIsVisibleModal}
                              setTitleModal={setTitleModal}
                              setContentModal={setContentModal}
+                             setReloadUsers={setReloadUsers}
                 />
                 :
                 <UsersInactive usersInactive={usersInactive}/>}
