@@ -207,13 +207,14 @@ export const deleteUserApi = (token, userId) => {
         })
 }
 
-const signUpAdminApi = (data) => {
+export const postSignUpAdminApi = (token, data) => {
     const url = `${BASE_PATH}/${API_VERSION}/sign-up-admin`;
     const params = {
         method: "POST",
         body: JSON.stringify(data),
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            Authorization: token
         }
     };
 

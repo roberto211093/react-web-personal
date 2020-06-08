@@ -7,6 +7,7 @@ import Modal from "../../../Modal";
 import EditUserForm from "../EditUserForm";
 import {getAvatarApi, putActivateUserApi, deleteUserApi} from "../../../../api/user"
 import { getAccessTokenApi } from "../../../../api/auth";
+import AddUserForm from "../AddUserForm/AddUserForm";
 
 const changeStatus = async (user, setReloadUsers) => {
     const token = getAccessTokenApi();
@@ -172,17 +173,32 @@ const ListUsers = (props) => {
     const [isVisibleModal, setIsVisibleModal] = useState(false);
     const [titleModal, setTitleModal] = useState(null);
     const [contentModal, setContentModal] = useState(null);
+    const newUser = () => {
+        setIsVisibleModal(true);
+        setTitleModal("Creando nuevo usuario");
+        setContentModal(
+            <AddUserForm
+            setIsVisibleModal={setIsVisibleModal}
+            setReloadUsers={setReloadUsers}
+            />
+        )
+    }
 
     return (
         <div className="list-users">
-            <div className="list-users__switch">
-                <Switch
-                    defaultChecked
-                    onChange={() => setViewUsersActive(!viewUsersActive)}
-                />
-                <span className="list-users__span">
-                    {viewUsersActive ? "Usuarios Activos" : "Usuarios Inactivos"}
-                </span>
+            <div className="list-users__header">
+                <div className="list-users__header-switch">
+                    <Switch
+                        defaultChecked
+                        onChange={() => setViewUsersActive(!viewUsersActive)}
+                    />
+                    <span className="list-users__span">
+                        {viewUsersActive ? "Usuarios Activos" : "Usuarios Inactivos"}
+                    </span>
+                </div>
+                <Button type="primary" onClick={() => newUser()}>
+                    Nuevo usuario
+                </Button>
             </div>
             {viewUsersActive
                 ?
