@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {Layout, Menu} from 'antd';
-import {HomeFilled, UserOutlined} from '@ant-design/icons';
+import {HomeFilled, UserOutlined, MenuOutlined} from '@ant-design/icons';
 
 import './MenuSider.scss';
 
@@ -24,6 +24,12 @@ const MenuSider = (props) => {
                     <Link to={"/admin/users"}>
                         <UserOutlined/>
                         <span className="nav-text">Usuarios</span>
+                    </Link>
+                </Item>
+                <Item key={"/admin/web"}>
+                    <Link to={"/admin/web"}>
+                        <MenuOutlined/>
+                        <span className="nav-text">Menú Web</span>
                     </Link>
                 </Item>
             </Menu>
