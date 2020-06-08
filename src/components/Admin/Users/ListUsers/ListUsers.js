@@ -43,7 +43,7 @@ const deleteUser = (user, setReloadUsers) => {
     }
     ModalAntd.confirm({
         title: "Eliminando usuario",
-        content: `¿Estas seguro que quieres eliminar a ${user.email}`,
+        content: `¿Estas seguro que quieres eliminar a ${user.email}?`,
         okText: "Eliminar",
         okType: "danger",
         cancelText: "Cancelar",
