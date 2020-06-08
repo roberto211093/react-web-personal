@@ -159,4 +159,29 @@ export const putUpdateUserApi = (token, user, userId) => {
         })
 }
 
+export const putActivateUserApi = (token, userId, status) => {
+    const url = `${BASE_PATH}/${API_VERSION}/activate-user/${userId}`;
+    const params = {
+        method: "PUT",
+        body: JSON.stringify({active: status}),
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+        }
+    };
+
+    return fetch(url, params).then(response => {
+        return response.json();
+    })
+        .then(result => {
+            if (result.message) {
+                return result.message;
+            }
+            return result;
+        })
+        .catch(err => {
+            return err.message;
+        })
+}
+
 export default signUpApi

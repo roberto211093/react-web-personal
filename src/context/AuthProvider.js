@@ -25,8 +25,7 @@ const AuthProvider = (props) => {
             }
 
         } catch (e) {
-            console.log("error al detectar usuario")
-            console.log(e)
+            console.log("error al detectar usuario", e);
         }
     }, [setData]);
 

@@ -1,14 +1,27 @@
 import React, {useEffect, useState} from "react";
-import {Switch, List, Avatar, Button} from "antd";
+import {Switch, List, Avatar, Button, notification} from "antd";
 import {EditOutlined, CheckOutlined, StopOutlined, DeleteOutlined} from '@ant-design/icons';
 import noAvatar from "../../../../assets/img/png/no-avatar.png";
 import "./ListUsers.scss";
 import Modal from "../../../Modal";
 import EditUserForm from "../EditUserForm";
-import {getAvatarApi} from "../../../../api/user"
+import {getAvatarApi, putActivateUserApi} from "../../../../api/user"
+import { getAccessTokenApi } from "../../../../api/auth";
 
-const changeStatus = () => {
-    console.log("changeStatus")
+const changeStatus = async (user, setReloadUsers) => {
+    const token = getAccessTokenApi();
+    try {
+        const res = await putActivateUserApi(token, user._id, !user.active)
+        notification["success"]({
+            message: `Usuario ${res.user.active ? "Activado" : "Desactivado"}`
+        })
+        setReloadUsers(true);
+    }
+    catch (error) {
+        notification["error"]({
+            message: error
+        })
+    }
 }
 
 const deleteUser = () => {
@@ -16,7 +29,7 @@ const deleteUser = () => {
 }
 
 const UserActive = (props) => {
-    const { user, updateUser } = props;
+    const { user, updateUser, setReloadUsers } = props;
     const [avatar, setAvatar] = useState(null);
   
     useEffect(() => {
@@ -35,7 +48,7 @@ const UserActive = (props) => {
                 <Button type="primary" onClick={() => updateUser(user)}>
                     <EditOutlined/>
                 </Button>,
-                <Button type="danger" onClick={() => changeStatus()}>
+                <Button type="danger" onClick={() => changeStatus(user, setReloadUsers)}>
                     <StopOutlined/>
                 </Button>,
                 <Button type="danger" onClick={() => deleteUser()}>
@@ -75,13 +88,13 @@ const UsersActive = (props) => {
             className="users-active"
             itemLayout="horizontal"
             dataSource={usersActive}
-            renderItem={user => <UserActive user={user} updateUser={updateUser}/>}
+            renderItem={user => <UserActive user={user} updateUser={updateUser} setReloadUsers={setReloadUsers}/>}
         />
     )
 }
 
 const UserInactive = (props) => {
-    const { user } = props;
+    const { user, setReloadUsers } = props;
     const [avatar, setAvatar] = useState(null);
   
     useEffect(() => {
@@ -97,7 +110,7 @@ const UserInactive = (props) => {
     return (
         <List.Item
             actions={[
-                <Button type="primary" onClick={() => changeStatus()}>
+                <Button type="primary" onClick={() => changeStatus(user, setReloadUsers)}>
                     <CheckOutlined/>
                 </Button>,
                 <Button type="danger" onClick={() => deleteUser()}>
@@ -118,13 +131,13 @@ const UserInactive = (props) => {
 }
 
 const UsersInactive = (props) => {
-    const {usersInactive} = props;
+    const {usersInactive, setReloadUsers} = props;
     return (
         <List
             className="users-inactive"
             itemLayout="horizontal"
             dataSource={usersInactive}
-            renderItem={user => <UserInactive user={user} />}
+            renderItem={user => <UserInactive user={user} setReloadUsers={setReloadUsers}/>}
         />
     )
 }
@@ -156,7 +169,7 @@ const ListUsers = (props) => {
                              setReloadUsers={setReloadUsers}
                 />
                 :
-                <UsersInactive usersInactive={usersInactive}/>}
+                <UsersInactive usersInactive={usersInactive} setReloadUsers={setReloadUsers}/>}
 
             <Modal
                 title={titleModal ? titleModal : ""}
