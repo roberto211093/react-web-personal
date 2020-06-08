@@ -184,4 +184,28 @@ export const putActivateUserApi = (token, userId, status) => {
         })
 }
 
+export const deleteUserApi = (token, userId) => {
+    const url = `${BASE_PATH}/${API_VERSION}/delete-user/${userId}`;
+    const params = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+        }
+    };
+
+    return fetch(url, params).then(response => {
+        return response.json();
+    })
+        .then(result => {
+            if (result.message) {
+                return result.message;
+            }
+            return result;
+        })
+        .catch(err => {
+            return err.message;
+        })
+}
+
 export default signUpApi

@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {Switch, List, Avatar, Button, notification} from "antd";
+import {Switch, List, Avatar, Button, notification, Modal as ModalAntd} from "antd";
 import {EditOutlined, CheckOutlined, StopOutlined, DeleteOutlined} from '@ant-design/icons';
 import noAvatar from "../../../../assets/img/png/no-avatar.png";
 import "./ListUsers.scss";
 import Modal from "../../../Modal";
 import EditUserForm from "../EditUserForm";
-import {getAvatarApi, putActivateUserApi} from "../../../../api/user"
+import {getAvatarApi, putActivateUserApi, deleteUserApi} from "../../../../api/user"
 import { getAccessTokenApi } from "../../../../api/auth";
 
 const changeStatus = async (user, setReloadUsers) => {
@@ -14,18 +14,42 @@ const changeStatus = async (user, setReloadUsers) => {
         const res = await putActivateUserApi(token, user._id, !user.active)
         notification["success"]({
             message: `Usuario ${res.user.active ? "Activado" : "Desactivado"}`
-        })
+        });
         setReloadUsers(true);
     }
     catch (error) {
         notification["error"]({
             message: error
-        })
+        });
     }
 }
 
-const deleteUser = () => {
-    console.log("deleteUser")
+const deleteUser = (user, setReloadUsers) => {
+    const token = getAccessTokenApi();
+    const fetchDelete = async () => {
+        try {
+            const res = await deleteUserApi(token, user._id);
+            notification["success"]({
+                message: `${res.user ? "Usuario Eliminado" : res}`
+            });
+            setReloadUsers(true);
+        }
+        catch (error) {
+            notification["error"]({
+                message: error
+            });
+        }
+    }
+    ModalAntd.confirm({
+        title: "Eliminando usuario",
+        content: `¿Estas seguro que quieres eliminar a ${user.email}`,
+        okText: "Eliminar",
+        okType: "danger",
+        cancelText: "Cancelar",
+        onOk () {
+            fetchDelete();
+        }
+    });  
 }
 
 const UserActive = (props) => {
@@ -51,7 +75,7 @@ const UserActive = (props) => {
                 <Button type="danger" onClick={() => changeStatus(user, setReloadUsers)}>
                     <StopOutlined/>
                 </Button>,
-                <Button type="danger" onClick={() => deleteUser()}>
+                <Button type="danger" onClick={() => deleteUser(user, setReloadUsers)}>
                     <DeleteOutlined/>
                 </Button>
             ]}
@@ -113,7 +137,7 @@ const UserInactive = (props) => {
                 <Button type="primary" onClick={() => changeStatus(user, setReloadUsers)}>
                     <CheckOutlined/>
                 </Button>,
-                <Button type="danger" onClick={() => deleteUser()}>
+                <Button type="danger" onClick={() => deleteUser(user, setReloadUsers)}>
                     <DeleteOutlined/>
                 </Button>
             ]}
