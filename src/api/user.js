@@ -24,7 +24,6 @@ const signUpApi = (data) => {
         })
 }
 
-
 export const signInApi = (data) => {
     const url = `${BASE_PATH}/${API_VERSION}/sign-in`;
     const params = {
@@ -202,6 +201,30 @@ export const deleteUserApi = (token, userId) => {
                 return result.message;
             }
             return result;
+        })
+        .catch(err => {
+            return err.message;
+        })
+}
+
+const signUpAdminApi = (data) => {
+    const url = `${BASE_PATH}/${API_VERSION}/sign-up-admin`;
+    const params = {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    };
+
+    return fetch(url, params).then(response => {
+        return response.json();
+    })
+        .then(result => {
+            if (result.user) {
+                return result;
+            }
+            return result.message
         })
         .catch(err => {
             return err.message;

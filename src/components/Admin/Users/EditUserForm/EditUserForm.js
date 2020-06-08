@@ -175,7 +175,7 @@ const EditUserForm = (props) => {
             });
             return;
         }
-        if (typeof userUpdate.avatar === "object") {
+        if (userUpdate.avatar && (typeof userUpdate.avatar === "object")) {
             const res = await putUpdateAvatarApi(token, userUpdate.avatar.file, user._id);
             userUpdate.avatar = res.user.avatar;
         } else {
