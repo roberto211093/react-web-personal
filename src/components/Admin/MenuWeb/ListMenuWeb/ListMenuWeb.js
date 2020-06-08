@@ -5,10 +5,26 @@ import Modal from '../../../Modal'
 import DragSortableList from 'react-drag-sortable';
 import "./ListMenuWeb.scss";
 import { getAccessTokenApi } from "../../../../api/auth";
-import { deleteMenuApi, updateMenuApi } from "../../../../api/menu";
+import { deleteMenuApi, updateMenuApi, ActivateMenuApi } from "../../../../api/menu";
 
-const changeStatus = (item, setReloadMenus) => {
-    console.log("changeStatus", item);
+const changeStatus = async (item, setReloadMenus) => {
+    const token = getAccessTokenApi();
+    try {
+        const res = await ActivateMenuApi(token, item._id, !item.active)
+        notification["success"]({
+            message: `Menú ${res.menu.active ? "Activado" : "Desactivado"}`
+        });
+        setReloadMenus(true);
+    }
+    catch (error) {
+        notification["error"]({
+            message: error
+        });
+    }
+}
+
+const updateMenu = (item, setReloadMenus) => {
+    console.log("updateMenu", item);
 }
 
 const deleteMenu = (item, setReloadMenus) => {
@@ -44,8 +60,8 @@ const MenuItem = (props) => {
 
     return (
         <List.Item actions={[
-            <Switch defaultChecked={menuItem.active}/>,
-            <Button type="primary" onClick={() => changeStatus(menuItem, setReloadMenus)}>
+            <Switch defaultChecked={menuItem.active} onClick={() => changeStatus(menuItem, setReloadMenus)}/>,
+            <Button type="primary" onClick={() => updateMenu(menuItem, setReloadMenus)}>
                 <EditOutlined/>
             </Button>,
             <Button type="danger" onClick={() => deleteMenu(menuItem, setReloadMenus)}>
