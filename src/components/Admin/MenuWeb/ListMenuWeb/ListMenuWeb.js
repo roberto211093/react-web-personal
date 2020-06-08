@@ -5,7 +5,7 @@ import Modal from '../../../Modal'
 import DragSortableList from 'react-drag-sortable';
 import "./ListMenuWeb.scss";
 import { getAccessTokenApi } from "../../../../api/auth";
-import { deleteMenuApi } from "../../../../api/menu";
+import { deleteMenuApi, updateMenuApi } from "../../../../api/menu";
 
 const changeStatus = (item, setReloadMenus) => {
     console.log("changeStatus", item);
@@ -75,6 +75,12 @@ const ListMenuWeb = (props) => {
     }, [menus, setReloadMenus])
 
     const onSort = (sortedList, dropEvent) => {
+        const token = getAccessTokenApi();
+        sortedList.forEach(async (item) => {
+            const {_id} = item.content.props.menuItem
+            const order = item.rank + 1;
+            await updateMenuApi(token, _id, {order})
+        })
         console.log("sortedList", sortedList);
         console.log("dropEvent", dropEvent);
     }
