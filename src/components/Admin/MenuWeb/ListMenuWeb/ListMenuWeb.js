@@ -7,6 +7,7 @@ import "./ListMenuWeb.scss";
 import { getAccessTokenApi } from "../../../../api/auth";
 import { deleteMenuApi, updateMenuApi, ActivateMenuApi } from "../../../../api/menu";
 import AddMenuWebForm from "../AddMenuWebForm/AddMenuWebForm";
+import EditMenuWebForm from "../EditMenuWebForm";
 
 const changeStatus = async (item, setReloadMenus) => {
     const token = getAccessTokenApi();
@@ -22,10 +23,6 @@ const changeStatus = async (item, setReloadMenus) => {
             message: error
         });
     }
-}
-
-const updateMenu = (item, setReloadMenus) => {
-    console.log("updateMenu", item);
 }
 
 const deleteMenu = (item, setReloadMenus) => {
@@ -57,12 +54,30 @@ const deleteMenu = (item, setReloadMenus) => {
 }
 
 const MenuItem = (props) => {
-    const {menuItem, setReloadMenus} = props;
+    const {
+        menuItem, 
+        setReloadMenus, 
+        setIsVisibleModal,
+        setTitleModal,
+        setContentModal
+    } = props;
+
+    const updateMenu = () => {
+        setIsVisibleModal(true);
+        setTitleModal(`Editando menú: ${menuItem.title}`);
+        setContentModal(
+            <EditMenuWebForm 
+                menu={menuItem} 
+                setIsVisibleModal={setIsVisibleModal} 
+                setReloadMenus={setReloadMenus}
+            />
+        );
+    }
 
     return (
         <List.Item actions={[
             <Switch defaultChecked={menuItem.active} onClick={() => changeStatus(menuItem, setReloadMenus)}/>,
-            <Button type="primary" onClick={() => updateMenu(menuItem, setReloadMenus)}>
+            <Button type="primary" onClick={() => updateMenu()}>
                 <EditOutlined/>
             </Button>,
             <Button type="danger" onClick={() => deleteMenu(menuItem, setReloadMenus)}>
@@ -85,7 +100,15 @@ const ListMenuWeb = (props) => {
         const listItemsArray = [];
         menus.forEach(item => {
             listItemsArray.push({
-                content: (<MenuItem menuItem={item} setReloadMenus={setReloadMenus}/>)
+                content: (
+                    <MenuItem 
+                        menuItem={item} 
+                        setReloadMenus={setReloadMenus}
+                        setIsVisibleModal={setIsVisibleModal}
+                        setTitleModal={setTitleModal}
+                        setContentModal={setContentModal}
+                    />
+                )
             });
         });
         setListItems(listItemsArray);
@@ -106,7 +129,11 @@ const ListMenuWeb = (props) => {
         setIsVisibleModal(true);
         setTitleModal("Creando nuevo menú");
         setContentModal(
-            <AddMenuWebForm setIsVisibleModal={setIsVisibleModal} setReloadMenus={setReloadMenus} order={menus.length}/>
+            <AddMenuWebForm 
+                setIsVisibleModal={setIsVisibleModal} 
+                setReloadMenus={setReloadMenus} 
+                order={menus.length}
+            />
         )
     }
 

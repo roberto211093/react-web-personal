@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {Form, Input, Select, Button, Row, Col, notification} from "antd";
 import {FontSizeOutlined} from '@ant-design/icons';
-import "./AddMenuWebForm.scss";
-import { postAddMenuApi } from "../../../../api/menu";
+import "./EditMenuWebForm.scss";
+import { updateMenuApi } from "../../../../api/menu";
 import { getAccessTokenApi } from "../../../../api/auth";
 
-const AddForm = (props) => {
-    const {menuData, setMenuData, addMenu} = props;
+const EditForm = (props) => {
+    const {menuData, setMenuData, editMenu} = props;
     const { Option } = Select;
     const { Item } = Form;
 
@@ -21,7 +21,7 @@ const AddForm = (props) => {
         </Select>
     )
     return (
-        <Form className="form-add" onSubmitCapture={addMenu}>
+        <Form className="form-edit" onSubmitCapture={editMenu}>
             <Row gutter={24}>
                 <Col span={24}>
                     <Item>
@@ -47,18 +47,26 @@ const AddForm = (props) => {
             
             <Item>
                 <Button type="primary" htmlType="submit" className="btn-submit">
-                    Crear Menú
+                    Actualizar Menú
                 </Button>
             </Item>
         </Form>
     )
 }
 
-const AddMenuWebForm = (props) => {
-    const {setIsVisibleModal, setReloadMenus, order} = props;
-    const [menuData, setMenuData] = useState({protocolo: "http://"});
+const EditMenuWebForm = (props) => {
+    const {menu, setIsVisibleModal, setReloadMenus} = props;
+    const [menuData, setMenuData] = useState({});
 
-    const addMenu = async (e) => {
+    useEffect(() => {
+        setMenuData({
+            title: menu.title ? menu.title : "",
+            url: menu.url ? menu.url.split('://')[1] : "",
+            protocolo: `${menu.url.split('://')[0]}://`
+        });
+    }, [menu]);
+
+    const editMenu = async (e) => {
         try {
             e.preventDefault();
             const token = getAccessTokenApi();
@@ -81,16 +89,14 @@ const AddMenuWebForm = (props) => {
                 });
                 return;
             }
-            let addMenu = {
+            let editMenu = {
                 title: title,
-                url: protocolo+url,
-                order: order + 1,
-                active: true
+                url: protocolo+url
             }
-            const result = await postAddMenuApi(token, addMenu);
+            const result = await updateMenuApi(token, menu._id, editMenu);
             if (result.menu) {
                 notification["success"]({
-                    message: "Menú Creado"
+                    message: "Menú Actualizado"
                 });
                 setMenuData({protocolo: "http://"});
                 setIsVisibleModal(false);
@@ -109,14 +115,14 @@ const AddMenuWebForm = (props) => {
     }
 
     return (
-        <div className="add-menu-web-form">
-        <AddForm
+        <div className="edit-menu-web-form">
+        <EditForm
             menuData={menuData}
             setMenuData={setMenuData}
-            addMenu={addMenu}
+            editMenu={editMenu}
         />
     </div>
     )
 }
 
-export default AddMenuWebForm
+export default EditMenuWebForm
