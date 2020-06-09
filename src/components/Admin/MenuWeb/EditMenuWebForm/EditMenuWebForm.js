@@ -1,25 +1,14 @@
 import React, { useState, useEffect } from "react";
-import {Form, Input, Select, Button, Row, Col, notification} from "antd";
-import {FontSizeOutlined} from '@ant-design/icons';
+import {Form, Input, Button, Row, Col, notification} from "antd";
+import {FontSizeOutlined, LinkOutlined} from '@ant-design/icons';
 import "./EditMenuWebForm.scss";
 import { updateMenuApi } from "../../../../api/menu";
 import { getAccessTokenApi } from "../../../../api/auth";
 
 const EditForm = (props) => {
     const {menuData, setMenuData, editMenu} = props;
-    const { Option } = Select;
     const { Item } = Form;
 
-    const selectBefore = (
-        <Select
-            onChange={e => setMenuData({...menuData, protocolo: e })}
-            value={menuData.protocolo}
-            style={{width: "90px"}}
-        >
-            <Option value="http://">http://</Option>
-            <Option value="https://">https://</Option>
-        </Select>
-    )
     return (
         <Form className="form-edit" onSubmitCapture={editMenu}>
             <Row gutter={24}>
@@ -36,7 +25,7 @@ const EditForm = (props) => {
                 <Col span={24}>
                     <Item>
                         <Input 
-                            addonBefore={selectBefore}
+                            prefix={<LinkOutlined style={{color: "rgba(0,0,0,0.25)"}}/>}
                             placeholder="URL"
                             value={menuData.url}
                             onChange={e => setMenuData({...menuData, url:e.target.value})}
@@ -61,8 +50,7 @@ const EditMenuWebForm = (props) => {
     useEffect(() => {
         setMenuData({
             title: menu.title ? menu.title : "",
-            url: menu.url ? menu.url.split('://')[1] : "",
-            protocolo: `${menu.url.split('://')[0]}://`
+            url: menu.url ? menu.url : ""
         });
     }, [menu]);
 
@@ -70,7 +58,7 @@ const EditMenuWebForm = (props) => {
         try {
             e.preventDefault();
             const token = getAccessTokenApi();
-            const {title, url, protocolo} = menuData;
+            const {title, url} = menuData;
             if (!title && !url) {
                 notification["error"]({
                     message: "Todos los campos son obligatorios"
@@ -89,16 +77,12 @@ const EditMenuWebForm = (props) => {
                 });
                 return;
             }
-            let editMenu = {
-                title: title,
-                url: protocolo+url
-            }
-            const result = await updateMenuApi(token, menu._id, editMenu);
+            const result = await updateMenuApi(token, menu._id, menuData);
             if (result.menu) {
                 notification["success"]({
                     message: "Menú Actualizado"
                 });
-                setMenuData({protocolo: "http://"});
+                setMenuData({});
                 setIsVisibleModal(false);
                 setReloadMenus(true);
             } else {
