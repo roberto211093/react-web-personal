@@ -6,6 +6,7 @@ import DragSortableList from 'react-drag-sortable';
 import "./ListMenuWeb.scss";
 import { getAccessTokenApi } from "../../../../api/auth";
 import { deleteMenuApi, updateMenuApi, ActivateMenuApi } from "../../../../api/menu";
+import AddMenuWebForm from "../AddMenuWebForm/AddMenuWebForm";
 
 const changeStatus = async (item, setReloadMenus) => {
     const token = getAccessTokenApi();
@@ -101,14 +102,29 @@ const ListMenuWeb = (props) => {
         console.log("dropEvent", dropEvent);
     }
 
+    const addMenuWebModal = () => {
+        setIsVisibleModal(true);
+        setTitleModal("Creando nuevo menú");
+        setContentModal(
+            <AddMenuWebForm setIsVisibleModal={setIsVisibleModal} setReloadMenus={setReloadMenus} order={menus.length}/>
+        )
+    }
+
     return (
         <div className="menu-web-list">
             <div className="menu-web-list__header">
-                <Button type="primary">Nuevo Menú</Button>
+                <Button type="primary" onClick={() => addMenuWebModal()}>Nuevo Menú</Button>
             </div>
             <div className="menu-web-list__items">
                 <DragSortableList items={listItems} onSort={onSort} type="vertical"/>
             </div>
+            <Modal
+                title={titleModal}
+                isVisible={isVisibleModal}
+                setIsVisible={setIsVisibleModal}
+            >
+                {contentModal}
+            </Modal>
         </div>
     )
 }

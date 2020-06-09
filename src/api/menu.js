@@ -67,6 +67,29 @@ export const ActivateMenuApi = async (token, idMenu, status) => {
     }
 }
 
+export const postAddMenuApi = async (token, menu) => {
+    const url = `${BASE_PATH}/${API_VERSION}/add-menu`;
+    const params = {
+        method: "POST",
+        body: JSON.stringify(menu),
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: token
+        }
+    };
+    try {
+        let response = await fetch(url, params);
+        let result = await response.json();
+        if (result.message) {
+            return result.message;
+        }
+        return result;
+    }
+    catch(err) {
+        return err.message;
+    }
+}
+
 export const deleteMenuApi = async (token, idMenu) => {
     const url = `${BASE_PATH}/${API_VERSION}/delete-menu/${idMenu}`;
     const params = {
