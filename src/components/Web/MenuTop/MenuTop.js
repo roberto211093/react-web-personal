@@ -4,6 +4,7 @@ import {Menu} from "antd";
 import getMenusApi from "../../../api/menu";
 import RafaLogo from '../../../assets/img/png/rafaLogo.png';
 import "./MenuTop.scss";
+import SocialLinks from "../SocialLinks/SocialLinks";
 
 const MenuTop = () => {
     const {Item} = Menu;
@@ -53,10 +54,7 @@ const MenuTop = () => {
                     })
                 : null
             }
-
-            <div className="web-menu-top__right">
-                social media...
-            </div> 
+            <SocialLinks/> 
         </Menu>
     )
 }
