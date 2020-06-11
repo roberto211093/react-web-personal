@@ -1,10 +1,16 @@
 import React from "react";
+import {Helmet} from "react-helmet";
 
 const Admin = () => {
     return (
-        <div>
-            AdminHome
-        </div>
+        <>
+            <Helmet>
+                <title>Admin | Rafael Acosta Martinez</title>
+            </Helmet>
+            <div>
+                AdminHome
+            </div>
+        </>
     )
 }
 

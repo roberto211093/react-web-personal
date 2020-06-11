@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import {Helmet} from "react-helmet";
 import {getAccessTokenApi} from "../../../api/auth";
 import {getUsersActiveApi} from "../../../api/user";
 import ListUsers from "../../../components/Admin/Users/ListUsers";
@@ -21,13 +22,18 @@ const Users = () => {
     }, [token, reloadUsers])
 
     return (
-        <div className="users">
-            <ListUsers
-                usersActive={usersActive}
-                usersInactive={usersInactive}
-                setReloadUsers={setReloadUsers}
-            />
-        </div>
+        <>
+            <Helmet>
+                <title>Usuarios | Rafael Acosta Martinez</title>
+            </Helmet>
+            <div className="users">
+                <ListUsers
+                    usersActive={usersActive}
+                    usersInactive={usersInactive}
+                    setReloadUsers={setReloadUsers}
+                />
+            </div>
+        </>
     )
 }
 

@@ -1,0 +1,24 @@
+@import "../../../../scss/index.scss";
+.nav-footer{
+    padding: 5px;
+    h3{
+        color: $font-light;
+        font-weight: bold;
+    }
+
+    ul {
+        padding:5px 0;
+        list-style: none;
+        
+        a{
+            color: $primary-color-dark;
+            &:hover {
+                color: $primary-color;
+            }
+
+            span{
+                padding-right: 5px;
+            }
+        }
+    }
+}

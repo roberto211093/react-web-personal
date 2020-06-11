@@ -3,6 +3,7 @@ import {ReactComponent as FacebookIcon} from "../../../assets/img/svg/facebook.s
 import {ReactComponent as LinkedinIcon} from "../../../assets/img/svg/linkedin.svg";
 import {ReactComponent as TwitterIcon} from "../../../assets/img/svg/twitter.svg";
 import {ReactComponent as YouTubeIcon} from "../../../assets/img/svg/youtube.svg";
+import {GithubFilled} from '@ant-design/icons';
 import "./SocialLinks.scss";
 
 const SocialLinks = () => {
@@ -38,6 +39,14 @@ const SocialLinks = () => {
                 rel="noopener noreferrer"
             >
                 <LinkedinIcon/>
+            </a>
+
+            <a  href="https://github.com/roberto211093" 
+                target="_blank" 
+                className="github"
+                rel="noopener noreferrer"
+            >
+                <GithubFilled style={{color: "#FFF"}}/>
             </a>
         </div>
     )

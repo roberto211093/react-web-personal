@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import {Helmet} from "react-helmet";
 import getMenusApi from '../../../api/menu';
 import ListMenuWeb from "../../../components/Admin/MenuWeb/ListMenuWeb/ListMenuWeb";
 
@@ -16,9 +17,14 @@ const MenuWeb = () => {
     }, [reloadMenus])
 
     return (
-        <div className="menu-web">
-            <ListMenuWeb menus={menus} setReloadMenus={setReloadMenus}/>
-        </div>
+        <>
+            <Helmet>
+                <title>Menu | Rafael Acosta Martinez</title>
+            </Helmet>
+            <div className="menu-web">
+                <ListMenuWeb menus={menus} setReloadMenus={setReloadMenus}/>
+            </div>
+        </>
     )
 }
 

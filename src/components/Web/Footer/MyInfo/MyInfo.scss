@@ -1,0 +1,15 @@
+@import "../../../../scss/index.scss";
+.my-info{
+    padding: 5px;
+    img {
+        width: 200px;
+        margin-bottom: 20px;
+    }
+    h4 {
+        margin-bottom: 20px;
+        color: $primary-color-dark;
+    }
+    .social-links{
+        justify-content: flex-start !important;
+    }
+}

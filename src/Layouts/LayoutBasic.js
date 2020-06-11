@@ -1,12 +1,12 @@
 import React from "react";
 import {Route, Switch} from "react-router-dom";
-import {Layout, Row, Col} from 'antd';
+import {Row, Col} from 'antd';
 import "./LayoutBasic.scss";
-import MenuTop from "../components/Web/MenuTop/MenuTop";
+import MenuTop from "../components/Web/MenuTop";
+import Footer from "../components/Web/Footer";
 
 const LayoutBasic = (props) => {
     const {routes} = props;
-    const {Footer} = Layout;
 
     const LoadRoutes = ({routes}) => {
         return (
@@ -35,7 +35,7 @@ const LayoutBasic = (props) => {
                 <Col md={4} />
             </Row>
             <LoadRoutes routes={routes}/>
-            <Footer>Rafael Roberto Acosta Martinez</Footer>
+            <Footer/>
         </>
     )
 }
