@@ -25,7 +25,7 @@ const Footer = () => {
                     </Row>
                     <Row className="footer__copyright">
                         <Col md={12}>
-                            © 2020 ALL RIGHTS RESERVED
+                            © 2020 ALL RIGHTS RESERVED.
                         </Col>
                         <Col md={12}>
                             RAFAEL ACOSTA MARTINEZ | DESARROLLADOR WEB
