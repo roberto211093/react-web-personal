@@ -32,5 +32,19 @@
             color: $font-light;
             font-size: 24px;
         }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 45px;
+                padding-left: 15px;
+            }
+            h2 {
+                font-size: 18px;
+                padding-left: 15px;
+            }
+        }
     }
+}
+.ant-menu-submenu-title {
+    color: #fff !important;
 }

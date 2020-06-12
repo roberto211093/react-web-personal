@@ -85,7 +85,7 @@ const RenderListRight = () =>{
 const NavFooter = () => {
     return (
         <Row className="nav-footer">
-            <Col md={24}>
+            <Col xs={24}>
                 <h3>Navegación</h3>
             </Col>
             <Col md={12}>

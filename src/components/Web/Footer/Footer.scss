@@ -12,4 +12,13 @@
             }
         }
     }
+    @media (max-width: 600px) {
+        &__copyright {
+            .ant-col {
+                &:last-of-type {
+                    text-align: left;
+                }
+            }
+        }
+    }
 }

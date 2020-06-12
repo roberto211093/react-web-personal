@@ -9,15 +9,17 @@
     ul {
         padding:5px 0;
         list-style: none;
-        
-        a{
-            color: $primary-color-dark;
-            &:hover {
-                color: $primary-color;
-            }
-
-            span{
-                padding-right: 5px;
+        li{
+            padding: 0 2px;
+            a{
+                color: $primary-color-dark;
+                &:hover {
+                    color: $primary-color;
+                }
+    
+                span{
+                    padding-right: 5px;
+                }
             }
         }
     }

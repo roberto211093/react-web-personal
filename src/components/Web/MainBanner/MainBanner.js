@@ -9,11 +9,11 @@ const MainBanner = () => {
             <Row>
                 <Col md={4} />
                 <Col md={16}>
-                    <h1>Aprende nuevas <br/>tecnologías web y móvil.</h1>
+                    <h1>MERN <br/>tecnologías web y móvil.</h1>
                     <h2>
-                        A través de cursos practicos, concisos y actualizados, por{" "}
+                        Desarrollador Full Stack{" "}
                         <br/>
-                        profecionales con años de experiencia.
+                        Mongo, Express, React y Node.
                     </h2>
                 </Col>
                 <Col md={4} />
