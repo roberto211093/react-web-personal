@@ -2,19 +2,19 @@ import React from "react";
 import {ReactComponent as FacebookIcon} from "../../../assets/img/svg/facebook.svg";
 import {ReactComponent as LinkedinIcon} from "../../../assets/img/svg/linkedin.svg";
 import {ReactComponent as TwitterIcon} from "../../../assets/img/svg/twitter.svg";
-import {ReactComponent as YouTubeIcon} from "../../../assets/img/svg/youtube.svg";
-import {GithubFilled} from '@ant-design/icons';
+import {GithubFilled, InstagramFilled} from '@ant-design/icons';
 import "./SocialLinks.scss";
 
 const SocialLinks = () => {
     return (
         <div className="social-links">
-            <a  href="https://www.youtube.com" 
+
+            <a  href="https://www.instagram.com/roberto_acosta/" 
                 target="_blank" 
-                className="youtube"
+                className="instagram"
                 rel="noopener noreferrer"
             >
-                <YouTubeIcon/>
+                <InstagramFilled style={{color: "#FFF"}}/>
             </a>
 
             <a  href="https://twitter.com/Roberto211093" 
