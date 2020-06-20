@@ -1,0 +1,42 @@
+@import "../../../scss/index.scss";
+.contact {
+  background-image: url("../../../assets/img/jpg/background-v1.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+
+    &__title {
+        color: $font-light;
+        font-weight: bold;
+    }
+    &__subtitle {
+        color: $font-light;
+        font-weight: bold;
+    }
+    .ant-col.ant-form-item-label>label {
+        color: $font-light;
+        font-weight: bold;
+    }
+    
+    &__button {
+      width: 100%;
+      font-size: 0em + 22px / $defaultFontSize;
+      background-color: $primary-color;
+      color: $font-light !important;
+      height: 42px;
+  
+      &:hover, &:focus, &:active {
+        background-color: $primary-color-hover;
+      }
+    }
+  }
+}
