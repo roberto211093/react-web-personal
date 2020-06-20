@@ -4,7 +4,7 @@ import {Redirect} from "react-router-dom";
 import {Layout, Tabs} from "antd";
 import Logo from "../../../assets/img/png/rafaLogo.png";
 import "./SignIn.scss";
-import RegisterForm from "../../../components/Admin/RegisterForm";
+// import RegisterForm from "../../../components/Admin/RegisterForm";
 import LoginForm from "../../../components/Admin/LoginForm";
 import {getAccessTokenApi} from "../../../api/auth";
 
@@ -34,9 +34,11 @@ const SignIn = () => {
                             <TabPane tab={<span>Entrar</span>} key="1">
                                 <LoginForm/>
                             </TabPane>
+                            {/* 
                             <TabPane tab={<span>Registrar</span>} key="2">
                                 <RegisterForm/>
                             </TabPane>
+                            */}
                         </Tabs>
                     </div>
                 </Content>

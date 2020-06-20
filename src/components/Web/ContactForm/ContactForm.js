@@ -12,15 +12,7 @@ const validateMessages = {
   },
 };
 
-
-const layout = {
-    labelCol: {
-      span: 8,
-    }
-  };
-
 const ContactForm = () => {
-    const {Content} = Layout;
     const [form] = Form.useForm();
 
     const onFinish = async (values) => {
@@ -41,8 +33,8 @@ const ContactForm = () => {
     return (
         <>
             <Layout className="contact">
-                <Content className="contact__content">
-                    <Form {...layout} form={form} onFinish={onFinish} validateMessages={validateMessages}>
+                <Layout.Content className="contact__content">
+                    <Form labelCol={{span:8}} form={form} onFinish={onFinish} validateMessages={validateMessages}>
                         <h1 className="contact__content__title">Contáctame</h1>
                         <p className="contact__content__subtitle">Déja tus datos y te contactaré lo antes posible.</p>
                         <Form.Item 
@@ -93,7 +85,7 @@ const ContactForm = () => {
                             </Button>
                         </Form.Item>
                     </Form>
-                </Content>
+                </Layout.Content>
             </Layout>
         </>
     )
