@@ -4,9 +4,9 @@ import {MailFilled, LockFilled} from '@ant-design/icons';
 import {emailValidation, minLengthValidation} from "../../../utils/formValidation";
 import {signInApi} from '../../../api/user';
 import {ACCESS_TOKEN, REFRESH_TOKEN} from "../../../api/config";
-import './LoginForm.scss';
 import {AuthContext} from "../../../context/AuthProvider";
 import jwt from "jwt-decode";
+import './LoginForm.scss';
 
 const LoginForm = () => {
     const {Item} = Form;
