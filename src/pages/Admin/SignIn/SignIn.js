@@ -29,7 +29,7 @@ const SignIn = () => {
                         <img src={Logo} alt="Rafael Roberto Acosta Martinez"/>
                     </h1>
 
-                    <div className="card-container">
+                    <div className="sign-in__content-tabs">
                         <Tabs type="card">
                             <TabPane tab={<span>Entrar</span>} key="1">
                                 <LoginForm/>
