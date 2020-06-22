@@ -1,6 +1,6 @@
 import React from "react";
 import {Helmet} from "react-helmet";
-import {Redirect} from "react-router-dom";
+import {Redirect, Link} from "react-router-dom";
 import {Layout, Tabs} from "antd";
 import Logo from "../../../assets/img/png/rafaLogo.png";
 import LoginForm from "../../../components/Admin/LoginForm";
@@ -25,9 +25,9 @@ const SignIn = () => {
             </Helmet>
             <Layout className="sign-in">
                 <Content className="sign-in__content">
-                    <h1 className="sign-in__content-logo">
+                    <Link to={"/"} className="sign-in__content-logo">
                         <img src={Logo} alt="Rafael Roberto Acosta Martinez"/>
-                    </h1>
+                    </Link>
 
                     <div className="sign-in__content-tabs">
                         <Tabs type="card">
