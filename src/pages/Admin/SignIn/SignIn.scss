@@ -50,7 +50,6 @@
         border-top: 4px solid $border-grey !important;
         height: 60px !important;
         @media (min-width: $media-breackpoint-up-lg) {
-          width: 220px;
           font-size: 0em + 23px / $defaultFontSize;
         }
         &:hover {
