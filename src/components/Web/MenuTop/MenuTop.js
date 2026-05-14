@@ -13,11 +13,24 @@ const MenuTop = () => {
     useEffect(() => {
         const arrayMenus = [];
         const fetchData = async () => {
-            const res = await getMenusApi();
-            res.menus.forEach(item => {
-                item.active && arrayMenus.push(item);
-            });
-            setMenusData(arrayMenus);
+            try {
+                const res = await getMenusApi();
+                // defensively check response shape before iterating
+                if (res && Array.isArray(res.menus)) {
+                    res.menus.forEach(item => {
+                        item && item.active && arrayMenus.push(item);
+                    });
+                } else {
+                    // If API returned unexpected shape, log for debugging
+                    // but avoid crashing the UI
+                    // console.warn('getMenusApi returned unexpected data', res);
+                }
+            } catch (err) {
+                // handle network/CORS/errors gracefully in UI
+                // console.error('Error fetching menus', err);
+            } finally {
+                setMenusData(arrayMenus);
+            }
         };
         fetchData();
     },[]);

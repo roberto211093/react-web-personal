@@ -78,6 +78,12 @@ const RenderListRight = () =>{
                     Portafolio
                 </a>
             </li>
+            <li>
+                <a href="/privacy-policy">
+                    <LinkOutlined/>
+                    Política de Privacidad
+                </a>
+            </li>
         </ul>
     )
 }

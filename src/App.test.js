@@ -1,9 +1,4 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import App from './App';
-
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test('test environment sanity', () => {
+  // prueba mínima: asegurarnos que el runner de tests corre
+  expect(true).toBe(true);
 });

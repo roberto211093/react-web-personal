@@ -11,6 +11,7 @@ import AdminMenuWeb from "../pages/Admin/MenuWeb";
 // Page
 import Home from "../pages/Home";
 import Contact from "../pages/Contact";
+import PrivacyPolicy from "../pages/PrivacyPolicy";
 
 // Not Found
 import Error404 from "../components/Error404";
@@ -59,6 +60,11 @@ const routes = [
             {
                 path: "/contact",
                 component: Contact,
+                exact: true
+            },
+            {
+                path: "/privacy-policy",
+                component: PrivacyPolicy,
                 exact: true
             },
             {

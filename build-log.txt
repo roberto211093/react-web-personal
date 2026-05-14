@@ -1,0 +1,33 @@
+$ react-scripts build
+Creating an optimized production build...
+Compiled with warnings.
+
+Failed to parse source map: 'webpack://antd/./components/config-provider/style/index.less' URL is not supported
+
+Failed to parse source map: 'webpack://antd/./components/icon/style/index.less' URL is not supported
+
+Failed to parse source map: 'webpack://antd/./components/locale-provider/style/index.less' URL is not supported
+
+Failed to parse source map: 'webpack://antd/./components/time-picker/style/index.less' URL is not supported
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+File sizes after gzip:
+
+  282.95 kB  build/static/js/main.35bad9b0.js
+  68.97 kB   build/static/css/main.8c51fc74.css
+
+The project was built assuming it is hosted at /.
+You can control this with the homepage field in your package.json.
+
+The build folder is ready to be deployed.
+You may serve it with a static server:
+
+  npm install -g serve
+  serve -s build
+
+Find out more about deployment here:
+
+  https://cra.link/deployment
+

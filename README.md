@@ -1,70 +1,84 @@
-Demo: http://rafael-acosta.surge.sh/
+# react-web-personal
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Demo (production): https://www.rafaelacosta.cl/
 
-## Available Scripts
+This project was bootstrapped with Create React App and uses `pnpm` as package manager.
 
-In the project directory, you can run:
+## Quick start
 
-### `yarn start`
+Install dependencies:
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+pnpm install
+```
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Start development server (live reload):
 
-### `yarn test`
+```bash
+pnpm start
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Open http://localhost:3000 and edit files — the page reloads automatically.
 
-### `yarn build`
+Run tests (CI-friendly):
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+CI=true pnpm test
+```
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+Create production build:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+pnpm build
+```
 
-### `yarn eject`
+Serve the static build locally (example script included):
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+PORT=5001 node scripts/serve-build.js
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Deploy to Vercel (recommended)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+This repo includes a `vercel.json` which tells Vercel to serve the SPA (rewrites everything to `index.html`) and to use the `build` folder created by `pnpm build`.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+To deploy and have Vercel pick up the latest changes:
 
-## Learn More
+1. Commit and push your changes to the branch connected to Vercel (for example `master` or `main`):
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+git add .
+git commit -m "Update privacy/terms page and styles"
+git push origin master
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. In the Vercel dashboard, make sure the project is linked to your GitHub/GitLab/Bitbucket repo and that the correct branch is selected.
 
-### Code Splitting
+3. Trigger a new deployment by pushing to the branch, or by clicking "Deploy" / "Redeploy" in the Vercel UI.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+4. Wait for the deployment to finish and visit `https://<your-vercel-domain>/privacy-policy` — thanks to `vercel.json` the client-side route will resolve.
 
-### Analyzing the Bundle Size
+If you want the custom domain `https://www.rafaelacosta.cl` to point to the new deployment:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+- In Vercel, go to Project → Settings → Domains and add `www.rafaelacosta.cl` (and `rafaelacosta.cl` if needed).
+- Follow the DNS instructions Vercel shows (CNAME / A records). After DNS propagation, Vercel will provision HTTPS automatically.
 
-### Making a Progressive Web App
+## Verify in Google Search Console
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+Once the custom domain is active and serving the new content, add the URL to Google Search Console:
 
-### Advanced Configuration
+1. Open https://search.google.com/search-console and add your property (use the `https://www.rafaelacosta.cl` domain property).
+2. Verify ownership following Vercel instructions (usually DNS TXT record or using the automatic verification if Vercel provides it).
+3. Use the URL Inspection tool and request indexing for `https://www.rafaelacosta.cl/privacy-policy`.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+Notes:
+- If your app served a previous build with a service worker, clear or unregister it to avoid stale cached content.
+- If Vercel shows a 404 for the client-side route, ensure `vercel.json` exists and is committed (it is included in this repo) so rewrites send requests to `index.html`.
 
-### Deployment
+## Troubleshooting CORS in development
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+- If your app fetches menus or other data from an external API and you see CORS errors in the console, you can:
+	- Enable CORS on the API side (best).
+	- Add `"proxy": "https://your-api-host"` to `package.json` for local development with CRA (then use relative paths for API calls).
+	- Use a local mock of the API while developing.
 
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify

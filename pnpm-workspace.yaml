@@ -1,0 +1,7 @@
+allowBuilds:
+  '@parcel/watcher': false
+  core-js: true
+  core-js-pure: true
+  es5-ext: true
+  fsevents: true
+  node-sass: true
